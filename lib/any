@@ -1,0 +1,74 @@
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+void main() => runApp(Some());
+var len=0;
+class Some extends StatefulWidget{
+  @override
+  MyApp createState() => MyApp();
+
+
+}
+class MyApp extends State<Some> {
+ var deta={'mobnum':['6543789567','6544689454','9870654327','8667854456','7654321896'],
+   'name':["ARIVAATRAL","GOWTHAM","HISHAM","KARUPAIYA","NAGHUL"],
+   'email':["kkarivaatral@gmail.com","gowthamsukumar@gmail.com","hishamthegreat4@gmail.com","karupaiyachu@gmail.com","naghulgreatness@gmail.com"],
+   'place':["TRICHY","SALEM","TRICHY","COIMBATORE","TIRRUPUR"]};
+
+Future apicall() async{
+  print("h");
+  http.Response response;
+  response= await http.get(Uri.parse("https://jsonplaceholder.typicode.com/users"));
+  if(response.statusCode==200){
+    print("hi");
+  }
+}
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        home:  Scaffold(
+    appBar: AppBar(title: Text("CONTACTS",style: TextStyle(fontSize: 27,fontWeight: FontWeight.bold),),backgroundColor: Colors.deepOrangeAccent,centerTitle: true,),
+
+    body: ListView.builder(
+    itemCount: deta['mobnum']!.length,
+    itemBuilder: (BuildContext context, int index) {
+
+    return ListTile(leading: Icon(Icons.person),subtitle: Text(deta['mobnum']![index],style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),title: Text(deta['name']![index],style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),onTap: (){
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>Details(deta['name']![index],deta['mobnum']![index],deta['email']![index],deta['place']![index])));
+    },);
+
+
+    }),
+    ));
+  }
+
+
+}
+
+class Details extends StatelessWidget{
+  @override
+  var name,mobnum,email,place;
+  Details(name,mobnum,email,place){
+    print("hiiiiii");
+    this.name=name;
+    this.mobnum=mobnum;
+    this.email=email;
+    this.place=place;
+  }
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text("DETAILS",style: TextStyle(fontSize: 27,fontWeight: FontWeight.bold)),centerTitle: true,),
+        body:Column(children: [Icon(Icons.person,size: 250,),Container(child: Text("NAME",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),decoration: BoxDecoration(color: Colors.cyan),margin: EdgeInsets.fromLTRB(0,0,0,0),),
+          Container(child: Text("${this.name}",style: TextStyle(fontSize: 20),),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,0,0,0),),
+          Container(child: Text("MOBILE NUMBER",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,20,0,0),),
+          Container(child: Text("${this.mobnum}",style: TextStyle(fontSize: 20)),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,0,0,0),),
+          Container(child: Text("E-MAIL",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,20,0,0),),
+          Container(child: Text("${this.email}",style: TextStyle(fontSize: 20)),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(40,0,0,0),),
+          Container(child: Text("PLACE",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,20,0,0),),
+          Container(child: Text("${this.place}",style: TextStyle(fontSize: 20)),decoration: BoxDecoration(),margin: EdgeInsets.fromLTRB(0,0,0,40),),
+
+        ],mainAxisAlignment: MainAxisAlignment.center,),),
+
+    );
+  }
+
+}
